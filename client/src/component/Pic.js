@@ -1,8 +1,26 @@
-import React from "react";
+import axios from "axios";
+import React, { useState } from "react";
 import { FaRegEdit } from "react-icons/fa";
 import Delete from "./Delete";
 
 const Pic = (data) => {
+  const [updateForm, setUpdateForm] = useState(false);
+  const [artist, setArtist] = useState("");
+
+  //Modification de la carte
+  const handleEdit = () => {
+    setUpdateForm(false);
+
+    const dataUpdate = {
+      artist: artist,
+      year: data.data.year,
+      photo: data.data.photo,
+    };
+
+    axios
+      .put("http://localhost:5000/pictures/"+data.data.id, dataUpdate);
+  };
+
   return (
     <div className="pics">
       <div className="header">
@@ -10,12 +28,27 @@ const Pic = (data) => {
       </div>
       <div className="info">
         <div>
-          <span className="artiste">{data.data.artist}</span> <br />
+          {updateForm ? (
+            <>
+              <input
+                type="text"
+                name="artist"
+                defaultValue={data.data.artist}
+                onChange={(e) => setArtist(e.target.value)}
+              />
+              <input type="button" value="Valider" onClick={handleEdit}/>
+            </>
+          ) : (
+            <>
+              <span className="artiste">{data.data.artist}</span>
+              <br />
+            </>
+          )}
           <span className="date">{data.data.year}</span>
         </div>
         <div className="icons">
           <span>
-            <FaRegEdit />
+            <FaRegEdit onClick={() => setUpdateForm(!updateForm)} />
           </span>
           <Delete id={data.data.id} />
         </div>

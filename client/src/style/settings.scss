@@ -127,5 +127,26 @@ body {
       transform: scale(1.02);
       transition: 0.2s;
     }
+    input[type="button"] {
+      color: white;
+      font-family: cursive;
+      background-color: rgb(100, 185, 219);
+      border-radius: 50px;
+      transition: 0.2s;
+      border: none;
+      margin-left: 20px;
+      @media screen and (max-width: 800px) {
+        margin-left: 0px;
+      }
+      cursor: pointer;
+      &:hover {
+        background-color: rgb(43, 107, 172);
+        font-size: 0.9rem;
+      }
+    }
+    input[type="text"] {
+      width: 50%;
+      border-radius: 10px;
+    }
   }
 }

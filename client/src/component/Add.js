@@ -1,12 +1,18 @@
 import axios from "axios";
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { addPicture } from "../features/pictures.slice";
 
-const Add = () => {
+const Add = ({ getPictures }) => {
   const [year, setYear] = useState("");
   const [artist, setArtist] = useState("");
 
+  const dispatch = useDispatch();
+
   //Fonction pour ajouter une photo
-  const addPic = () => {
+  const addPic = (e) => {
+    e.preventDefault();
+
     const data = {
       artist: artist,
       year: year,
@@ -14,21 +20,25 @@ const Add = () => {
         "https://picsum.photos/400/" + Math.round(Math.random() * 200 + 300),
     };
 
-    axios
-      .post("http://localhost:5000/pictures", data)
-      .then((res) =>
-        axios
-          .get("http://localhost:5000/pictures")
-          .then((res) => console.log("coucou"))
-          .catch((err) => console.log(err))
-      )
-      .catch((err) => console.log(err));
+    if (data.artist === "" || data.year === "") {
+      alert("Attention, il manque une information");
+    } else {
+      axios
+        .post("http://localhost:5000/pictures", data)
+        .then((res) => {
+          dispatch(addPicture(data));
+          dispatch(getPictures);
+          setArtist("");
+          setYear("");
+        })
+        .catch((err) => console.log(err));
+    }
   };
 
   return (
     <div className="add">
       <span className="titre-add">Enregistrer une nouvelle photo</span>
-      <div className="form">
+      <form onSubmit={(e) => addPic(e)} id="myform">
         <input
           type="text"
           placeholder="Artiste"
@@ -42,7 +52,7 @@ const Add = () => {
           value={year}
         />
         <input type="submit" value="Envoyer" onClick={addPic} />
-      </div>
+      </form>
     </div>
   );
 };

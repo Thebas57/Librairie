@@ -1,11 +1,15 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { FaRegEdit } from "react-icons/fa";
+import { useDispatch } from "react-redux";
+import { editPicture } from "../features/pictures.slice";
 import Delete from "./Delete";
 
 const Pic = (data) => {
   const [updateForm, setUpdateForm] = useState(false);
   const [artist, setArtist] = useState("");
+
+  const dispatch = useDispatch();
 
   //Modification de la carte
   const handleEdit = () => {
@@ -18,7 +22,8 @@ const Pic = (data) => {
     };
 
     axios
-      .put("http://localhost:5000/pictures/"+data.data.id, dataUpdate);
+      .put("http://localhost:5000/pictures/" + data.data.id, dataUpdate)
+      .then(() => dispatch(editPicture([dataUpdate.artist, data.data.id])));
   };
 
   return (
@@ -36,7 +41,7 @@ const Pic = (data) => {
                 defaultValue={data.data.artist}
                 onChange={(e) => setArtist(e.target.value)}
               />
-              <input type="button" value="Valider" onClick={handleEdit}/>
+              <input type="button" value="Valider" onClick={handleEdit} />
             </>
           ) : (
             <>

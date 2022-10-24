@@ -13,12 +13,6 @@
       "id": 3
     },
     {
-      "artist": "Sky",
-      "year": "2012",
-      "photo": "https://picsum.photos/400/332",
-      "id": 4
-    },
-    {
       "artist": "Le Desk",
       "year": "2015",
       "photo": "https://picsum.photos/400/341",
@@ -41,6 +35,12 @@
       "year": "2021",
       "photo": "https://picsum.photos/400/489",
       "id": 8
+    },
+    {
+      "artist": "New update",
+      "year": "2015",
+      "photo": "https://picsum.photos/400/472",
+      "id": 9
     }
   ]
 }
